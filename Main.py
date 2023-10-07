@@ -17,7 +17,7 @@ quant_preso = (3) + 1 # Quantidade de rodada preso
 personagem = [] # 0-posição, 1-nome, 2-dinheiro, 3-propriedade, 4-prisão, 5-automático, 6-hábias_corpus, 7-propriedade_empresa
 bkp_personagem = [] # Faz backup dos personagem
 personagem.append([0,'Davi',2500,[[0,0]],0,automático,0,[]])
-personagem.append([0,'Diego',2500,[[0,0]],0,automático,0,[]])
+personagem.append([0,'Maria',2500,[[0,0]],0,automático,0,[]])
 
 # Estatística
 estatística_real =  []
