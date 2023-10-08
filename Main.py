@@ -3,35 +3,30 @@ from copy import deepcopy
 from random import shuffle, randint
 from Script.Propriedade import aluguel, lugar
 from Script.Sorte_ou_Revez import sorte_ou_revez
-
-# Configuração do jogo
+# Configuração do jogo 
 traço = '-=' * 30
 traço1 = '-' * 60
 i = 0 # Indicador de quem é a vez de jogar
 rodada = 1
-total_rodada = 200 # Limite total de rodada
-automático = 0 # 0 é manual, 1 automático
+total_rodada = 1000 # Limite total de rodada
+automático = 1 # 0 é manual, 1 automático
 quant_preso = (3) + 1 # Quantidade de rodada preso
-
 # Criação do personagem
 personagem = [] # 0-posição, 1-nome, 2-dinheiro, 3-propriedade, 4-prisão, 5-automático, 6-hábias_corpus, 7-propriedade_empresa
 bkp_personagem = [] # Faz backup dos personagem
-personagem.append([0,'Davi',2500,[[0,0]],0,automático,0,[]])
+personagem.append([0,'David',2500,[[0,0]],0,automático,0,[]])
 personagem.append([0,'Maria',2500,[[0,0]],0,automático,0,[]])
-
 # Estatística
 estatística_real =  []
 compra_lote = []
 compra_casa = []
 aluguel_jogador = []
-
 # DEFS
 def dados():
     d0 = randint(1,6)
     d1 = randint(1,6)
     d2 = d0 + d1
     return d0,d1,d2
-
 # Logica do jogo
 while True:
     print(traço)
@@ -56,7 +51,6 @@ Digite aqui: '''))
                 if len(personagem) > 1: # Verifica se tem mais de dois jogadores
                     if i >= len(personagem):
                         i -= int(len(personagem))
-                    
                     print(f'Esta na vez de {personagem[i][1]}, você esta em {lugar(personagem[i][0])[1]}, casa:{personagem[i][0]}')
                     print(f'Dinheiro: R${personagem[i][2]} round: {rodada}º')
                     print(f'Propriedades: ',end='')
@@ -66,13 +60,11 @@ Digite aqui: '''))
                         print('')
                     else:
                         print('Nenhum')
-                    
                     if personagem[i][5] == 0: # jogada manual
                         jogo = str(input('[ Enter ] Jogar os dados: '))
                     else: # jogada automática
                         print('Jogando os dados:')
                         jogo = '' # Jogada automática
-                    
                     if jogo.isnumeric() == True:
                         jogo = int(jogo)
                         if jogo == 0:
@@ -85,7 +77,6 @@ Digite aqui: '''))
                             personagem[i][0] -= 40
                             personagem[i][2] += 200
                             print('Passou pelo inicio ganha, R$200')
-                        
                         print(f'Dados: {dado[0]} + {dado[1]} = {dado[2]}')
                         print(f'Avançou até \"{lugar(personagem[i][0])[1]}\"')
 # Verificação da cadeia
@@ -167,7 +158,6 @@ Digite aqui: '''))
                                 print(f'{personagem[i][1]},pagou R$50 e saiu da cadeia')
                             else:
                                 print(f'{personagem[i][1]}, apenas continua')
-                                
 # Verificação
                     if lugar(personagem[i][0])[0] == 0:
                         print('Ferias/Sem ação')
@@ -176,14 +166,11 @@ Digite aqui: '''))
                         p = 0 # ninguém possui a propriedade
                         for a in range(0,len(personagem)): # Para cada jogador
                             for b in range(0,len(personagem[a][3])): # Para cada propriedade
-                                #print(personagem[a][3][b][0])
                                 if personagem[i][0] == personagem[a][3][b][0]:
-                                    #p = 1
                                     if personagem[a] == personagem[i]: # Caso você seja o dono
                                         p = 2
                                     else: # Caso você não seja o dono
                                         p = 1
-                                        
                         if p == 0: # Propriedade sem dono
                             if personagem[i][2] >= lugar(personagem[i][0])[2]: # Verificação de dinheiro
                                 while True:
@@ -248,7 +235,6 @@ Digite aqui: ''')).upper()
                                                     break
                                                 elif negociação1 == 'N':
                                                     break
-
 # Verificação da/s empresa/s
                     elif lugar(personagem[i][0])[0] == 2:
                     # Empresa
@@ -260,7 +246,6 @@ Digite aqui: ''')).upper()
                                         pe = 2
                                     else: # Caso você não seja o dono
                                         pe = 1
-                        
                         if pe == 0: # Sem dono
                             if personagem[i][2] >= lugar(personagem[i][0])[2]: # Verificação de dinheiro
                                 while True:
@@ -327,8 +312,7 @@ Digite aqui: ''')).upper()
                                         total_hábias += personagem[a][6]
                                 if total_hábias <= 2:
                                     personagem[i][6] += 1
-                                    break
-                                        
+                                    break  
                             elif sorte[0] == 3: # Preso
                                 print(traço1)
                                 personagem[i][0] = 40
@@ -346,16 +330,14 @@ Digite aqui: ''')).upper()
                     elif lugar(personagem[i][0])[0] == 5:
                         if lugar(personagem[i][0])[2] > 0: # Ganha dinheiro
                             personagem[i][2] += lugar(personagem[i][0])[2]
-                            print(f'{personagem[i][1]}l, ganhou R${lugar(personagem[i][0])[2]}')
+                            print(f'{personagem[i][1]}, ganhou R${lugar(personagem[i][0])[2]}')
                         elif lugar(personagem[i][0])[2] < 0: # Paga dinheiro
                             personagem[i][2] += lugar(personagem[i][0])[2]
                             print(f'{personagem[i][1]}l, pagou R${lugar(personagem[i][0])[2]}')
-                    
                     #print(traço1)
                     #print(personagem)
                     if rodada == total_rodada: # Determina o fim apos x de rodadas
                         break
-                    
                     if personagem[i][4] > 0: # Retira uma rodada por jogada
                         personagem[i][4] -= 1
                         if personagem[i][4] == 0:
